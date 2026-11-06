@@ -193,7 +193,7 @@
       <option value="atualizado">Atualizadas recentemente</option>
       <option value="titulo">Ordem alfabética</option>
     </select>
-    <label class="chk"><input type="checkbox" id="fHist"> Mostrar concluídas do histórico de 01/10</label>
+    <label class="chk"><input type="checkbox" id="fHist"> Incluir concluídas do histórico de 01/10 na lista</label>
     <div class="legend">
       <span><i style="background:var(--vermelho)"></i>Atenção especial</span>
       <span><i style="background:var(--amarelo)"></i>Em andamento</span>
@@ -270,7 +270,7 @@
     const showHist=$('#fHist').checked;
     const t=today();
     return Object.values(items).filter(it=>{
-      if(!showHist && it.origem==='historico-0110' && it.status==='concluida') return false;
+      if(it.status==='concluida' && it.origem==='historico-0110' && !showHist && filter!=='concluida' && !q) return false;
       if(resp && (it.responsavel||'')!==resp) return false;
       if(filter==='vencido'){ if(!(it.prazo && it.status!=='concluida' && it.prazo<t)) return false; }
       else if(filter!=='all' && it.status!==filter) return false;
