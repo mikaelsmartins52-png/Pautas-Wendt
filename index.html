@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pautas Mikael × Sávio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f5f7;--card:#fff;--ink:#1c2230;--muted:#6b7280;--line:#e3e6eb;
+    --brand:#0f2a4a;--brand-2:#1d4ed8;
+    --amarelo:#f5c518;--amarelo-bg:#fff7d6;--amarelo-ink:#7a5a00;
+    --verde:#2fa84f;--verde-bg:#e6f6ea;--verde-ink:#1b5e2b;
+    --vermelho:#e0453a;--vermelho-bg:#fde8e6;--vermelho-ink:#8a1f17;
+    --radius:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+  header{background:var(--brand);color:#fff;padding:18px 24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+  header h1{margin:0;font-size:18px;font-weight:700;letter-spacing:.2px}
+  header p{margin:2px 0 0;font-size:12px;opacity:.8}
+  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  button{font:inherit;cursor:pointer;border:1px solid transparent;border-radius:8px;padding:8px 14px;font-weight:600;font-size:13px}
+  .btn-primary{background:#fff;color:var(--brand)}
+  .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+  .btn-ghost:hover{background:rgba(255,255,255,.1)}
+  .btn-blue{background:var(--brand-2);color:#fff}
+  .btn-light{background:#fff;color:var(--ink);border-color:var(--line)}
+  .btn-danger{background:#fff;color:var(--vermelho);border-color:var(--vermelho)}
+  main{max-width:1200px;margin:0 auto;padding:20px 24px 60px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;cursor:pointer;border-left:5px solid var(--line)}
+  .kpi.on{outline:2px solid var(--brand-2)}
+  .kpi .n{font-size:26px;font-weight:700;line-height:1}
+  .kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
+  .kpi.atencao{border-left-color:var(--vermelho)}
+  .kpi.andamento{border-left-color:var(--amarelo)}
+  .kpi.concluida{border-left-color:var(--verde)}
+  .kpi.atraso{border-left-color:var(--brand-2)}
+  .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff;color:var(--ink)}
+  input[type=search]{min-width:240px;flex:1}
+  .legend{font-size:12px;color:var(--muted);margin-left:auto;display:flex;gap:12px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+  .group{margin-top:22px}
+  .group h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .group h2 b{background:var(--line);border-radius:999px;padding:1px 8px;font-size:11px;color:var(--ink)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 14px 12px;border-left:6px solid var(--line);cursor:pointer;transition:box-shadow .15s}
+  .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+  .card.atencao{border-left-color:var(--vermelho)}
+  .card.andamento{border-left-color:var(--amarelo)}
+  .card.concluida{border-left-color:var(--verde);opacity:.85}
+  .card .t{font-weight:700;font-size:14px;margin:0 0 6px}
+  .card .d{color:var(--muted);font-size:13px;margin:0 0 8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .card .next{font-size:13px;margin:0 0 8px;padding:6px 8px;background:#f7f8fa;border-radius:6px}
+  .card .next b{color:var(--brand-2)}
+  .meta{display:flex;flex-wrap:wrap;gap:6px;font-size:11px}
+  .chip{border-radius:999px;padding:2px 8px;background:#eef0f3;color:#374151;font-weight:600}
+  .chip.resp{background:#e8eefb;color:#1e3a8a}
+  .chip.dias{background:#f3f4f6}
+  .chip.dias.velho{background:var(--vermelho-bg);color:var(--vermelho-ink)}
+  .chip.prazo{background:#eef2ff;color:#3730a3}
+  .chip.prazo.vencido{background:var(--vermelho-bg);color:var(--vermelho-ink)}
+  .chip.prazo.hoje{background:var(--amarelo-bg);color:var(--amarelo-ink)}
+  .chip.hist{background:#f1f5f9;color:#475569;font-weight:500}
+  .empty{color:var(--muted);padding:30px;text-align:center;background:#fff;border:1px dashed var(--line);border-radius:var(--radius)}
+  .notice{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:16px;color:var(--muted)}
+  .overlay{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:flex-start;justify-content:center;padding:30px 12px;overflow:auto;z-index:50}
+  .overlay.open{display:flex}
+  .modal{background:#fff;border-radius:14px;width:100%;max-width:720px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+  .modal h3{margin:0 0 14px;font-size:16px}
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form .full{grid-column:1/-1}
+  .form label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+  .form input,.form select,.form textarea{width:100%}
+  .form textarea{min-height:70px;resize:vertical}
+  .status-pick{display:flex;gap:6px}
+  .status-pick button{flex:1;border:2px solid var(--line);background:#fff;color:var(--ink)}
+  .status-pick button.andamento.on{border-color:var(--amarelo);background:var(--amarelo-bg);color:var(--amarelo-ink)}
+  .status-pick button.concluida.on{border-color:var(--verde);background:var(--verde-bg);color:var(--verde-ink)}
+  .status-pick button.atencao.on{border-color:var(--vermelho);background:var(--vermelho-bg);color:var(--vermelho-ink)}
+  .hist{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+  .hist h4{margin:0 0 8px;font-size:13px}
+  .hist ul{list-style:none;padding:0;margin:0 0 10px;max-height:220px;overflow:auto}
+  .hist li{padding:7px 10px;border-left:3px solid var(--line);margin-bottom:6px;background:#f9fafb;border-radius:0 6px 6px 0;font-size:13px}
+  .hist li small{color:var(--muted);display:block;font-size:11px}
+  .hist .add{display:flex;gap:8px}
+  .hist .add input{flex:1}
+  .modal-foot{display:flex;justify-content:space-between;gap:8px;margin-top:18px;flex-wrap:wrap}
+  .modal-foot .r{display:flex;gap:8px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
+  .toast.show{opacity:1}
+  pre.resumo{white-space:pre-wrap;background:#f7f8fa;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:12px;max-height:400px;overflow:auto;font-family:ui-monospace,Menlo,monospace}
+  @media (max-width:640px){.form{grid-template-columns:1fr}header{padding:14px 16px}main{padding:14px 12px 50px}}
+  .login{position:fixed;inset:0;background:var(--brand);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+  .login .box{background:#fff;border-radius:14px;padding:28px;width:100%;max-width:380px}
+  .login h2{margin:0 0 4px;font-size:18px}
+  .login p{margin:0 0 16px;color:var(--muted);font-size:13px}
+  .login label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:10px 0 4px}
+  .login input{width:100%}
+  .login button{width:100%;margin-top:16px}
+  .login .err{color:var(--vermelho);font-size:12px;margin-top:8px;min-height:16px}
+  .who{font-size:12px;opacity:.85}
+  .who a{color:#fff;cursor:pointer;text-decoration:underline;margin-left:8px}
+  body.locked main,body.locked header{filter:blur(2px);pointer-events:none}
+</style>
+</head>
+<body>
+<div class="login" id="login">
+  <div class="box">
+    <h2>Pautas Mikael × Sávio</h2>
+    <p>Painel de acompanhamento das demandas — WENDT</p>
+    <label>Seu nome</label><input id="lNome" placeholder="Ex.: Sávio">
+    <label>Código de acesso</label><input id="lCod" type="password" placeholder="código do painel">
+    <button class="btn-blue" id="lEntrar">Entrar</button>
+    <div class="err" id="lErr"></div>
+  </div>
+</div>
+<header>
+  <div>
+    <h1>Pautas Mikael × Sávio</h1>
+    <p id="sub">Controle das demandas em andamento — WENDT</p><p class="who" id="who"></p>
+  </div>
+  <div class="actions">
+    <button class="btn-ghost" id="btnResumo">Copiar resumo p/ e-mail</button>
+    <button class="btn-primary" id="btnNova">+ Nova pauta</button>
+  </div>
+</header>
+
+<main>
+  <div id="notice" class="notice" style="display:none"></div>
+
+  <div class="kpis">
+    <div class="kpi atencao" data-f="atencao"><div class="n" id="kAtencao">0</div><div class="l">Atenção especial</div></div>
+    <div class="kpi andamento" data-f="andamento"><div class="n" id="kAndamento">0</div><div class="l">Em andamento</div></div>
+    <div class="kpi atraso" data-f="vencido"><div class="n" id="kVencido">0</div><div class="l">Com prazo vencido</div></div>
+    <div class="kpi concluida" data-f="concluida"><div class="n" id="kConcluida">0</div><div class="l">Concluídas</div></div>
+    <div class="kpi" data-f="all"><div class="n" id="kMedia">0</div><div class="l">Dias médios em aberto</div></div>
+  </div>
+
+  <div class="filters">
+    <input type="search" id="q" placeholder="Buscar pauta, cliente, pessoa…">
+    <select id="fResp"><option value="">Todos os responsáveis</option></select>
+    <select id="fOrd">
+      <option value="dias">Mais antigas primeiro</option>
+      <option value="prazo">Por prazo</option>
+      <option value="atualizado">Atualizadas recentemente</option>
+      <option value="titulo">A–Z</option>
+    </select>
+    <label style="font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center"><input type="checkbox" id="fHist"> mostrar histórico 01/10</label>
+    <div class="legend">
+      <span><i style="background:var(--vermelho)"></i>atenção</span>
+      <span><i style="background:var(--amarelo)"></i>andamento</span>
+      <span><i style="background:var(--verde)"></i>concluída</span>
+    </div>
+  </div>
+
+  <div id="groups"></div>
+</main>
+
+<div class="overlay" id="ovEdit">
+  <div class="modal">
+    <h3 id="mTitle">Nova pauta</h3>
+    <div class="form">
+      <div class="full"><label>Status</label>
+        <div class="status-pick">
+          <button type="button" class="atencao" data-s="atencao">🔴 Atenção especial</button>
+          <button type="button" class="andamento" data-s="andamento">🟡 Em andamento</button>
+          <button type="button" class="concluida" data-s="concluida">🟢 Concluída</button>
+        </div>
+      </div>
+      <div class="full"><label>Pauta</label><input id="eTitulo" placeholder="Ex.: Pagamento dos créditos da Rede Tradição"></div>
+      <div class="full"><label>Situação / contexto</label><textarea id="eDesc"></textarea></div>
+      <div><label>Responsável pela próxima ação</label><input id="eResp" list="respList" placeholder="Mikael, Sávio, Felipe…"><datalist id="respList"></datalist></div>
+      <div><label>Prazo combinado</label><input type="date" id="ePrazo"></div>
+      <div class="full"><label>Próxima ação</label><input id="eNext" placeholder="O que precisa acontecer agora?"></div>
+      <div><label>Em aberto desde</label><input type="date" id="eAbertura"></div>
+      <div><label>Origem</label><select id="eOrigem"><option value="atual">Lista atual</option><option value="historico-0110">Histórico 01/10</option></select></div>
+    </div>
+    <div class="hist" id="histBox">
+      <h4>Histórico de andamento</h4>
+      <ul id="histList"></ul>
+      <div class="add"><input id="histTxt" placeholder="Registrar atualização (ex.: cobrei o Felipe por WhatsApp)"><button class="btn-light" id="histAdd">Adicionar</button></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-danger" id="btnDel" style="display:none">Excluir</button>
+      <div class="r"><button class="btn-light" id="btnCancel">Cancelar</button><button class="btn-blue" id="btnSave">Salvar</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="ovResumo">
+  <div class="modal">
+    <h3>Resumo para e-mail / WhatsApp</h3>
+    <pre class="resumo" id="resumoTxt"></pre>
+    <div class="modal-foot"><span></span><div class="r"><button class="btn-light" id="resumoClose">Fechar</button><button class="btn-blue" id="resumoCopy">Copiar texto</button></div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const STATUS={atencao:'Atenção especial',andamento:'Em andamento',concluida:'Concluída'};
+  const ORDER=['atencao','andamento','concluida'];
+  let items={}, editing=null, filter='all';
+
+  const today=()=>{const d=new Date();return d.toISOString().slice(0,10);};
+  const fmt=d=>d?d.split('-').reverse().join('/'):'';
+  const daysBetween=(a,b)=>Math.round((new Date(b)-new Date(a))/86400000);
+  const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+  function notice(msg){const n=$('#notice');if(!msg){n.style.display='none';return;}n.style.display='block';n.textContent=msg;}
+
+  function visible(){
+    const q=$('#q').value.trim().toLowerCase();
+    const resp=$('#fResp').value;
+    const showHist=$('#fHist').checked;
+    const t=today();
+    return Object.values(items).filter(it=>{
+      if(!showHist && it.origem==='historico-0110' && it.status==='concluida') return false;
+      if(resp && (it.responsavel||'')!==resp) return false;
+      if(filter==='vencido'){ if(!(it.prazo && it.status!=='concluida' && it.prazo<t)) return false; }
+      else if(filter!=='all' && it.status!==filter) return false;
+      if(q){const hay=[it.titulo,it.descricao,it.responsavel,it.proximaAcao,...(it.historico||[]).map(h=>h.texto)].join(' ').toLowerCase(); if(!hay.includes(q)) return false;}
+      return true;
+    });
+  }
+  function sorter(){
+    const o=$('#fOrd').value;
+    return (a,b)=>{
+      if(o==='dias') return (a.abertura||'9999')<(b.abertura||'9999')?-1:1;
+      if(o==='prazo') return (a.prazo||'9999')<(b.prazo||'9999')?-1:1;
+      if(o==='atualizado') return (b.atualizado||'')<(a.atualizado||'')?-1:1;
+      return (a.titulo||'').localeCompare(b.titulo||'');
+    };
+  }
+  function chipDias(it){
+    if(it.status==='concluida'||!it.abertura) return '';
+    const d=daysBetween(it.abertura,today());
+    return `<span class="chip dias ${d>=30?'velho':''}">${d} dia${d===1?'':'s'} em aberto</span>`;
+  }
+  function chipPrazo(it){
+    if(!it.prazo) return '';
+    const t=today();let c='';
+    if(it.status!=='concluida'){ if(it.prazo<t)c='vencido'; else if(it.prazo===t)c='hoje'; }
+    return `<span class="chip prazo ${c}">${c==='vencido'?'⚠ ':''}prazo ${fmt(it.prazo)}</span>`;
+  }
+  function card(it){
+    const last=(it.historico||[]).slice(-1)[0];
+    return `<div class="card ${it.status}" data-id="${it.id}">
+      <p class="t">${esc(it.titulo)}</p>
+      ${it.descricao?`<p class="d">${esc(it.descricao)}</p>`:''}
+      ${it.proximaAcao&&it.status!=='concluida'?`<p class="next"><b>Próxima ação:</b> ${esc(it.proximaAcao)}</p>`:''}
+      <div class="meta">
+        ${it.responsavel?`<span class="chip resp">${esc(it.responsavel)}</span>`:''}
+        ${chipDias(it)}${chipPrazo(it)}
+        ${it.origem==='historico-0110'?`<span class="chip hist">histórico 01/10</span>`:''}
+        ${last?`<span class="chip hist">últ. ${fmt(last.data)}${it.atualizadoPor?' · '+esc(it.atualizadoPor):''}</span>`:''}
+      </div></div>`;
+  }
+  function render(){
+    const all=Object.values(items);
+    const t=today();
+    $('#kAtencao').textContent=all.filter(i=>i.status==='atencao').length;
+    $('#kAndamento').textContent=all.filter(i=>i.status==='andamento').length;
+    $('#kConcluida').textContent=all.filter(i=>i.status==='concluida').length;
+    $('#kVencido').textContent=all.filter(i=>i.prazo&&i.status!=='concluida'&&i.prazo<t).length;
+    const open=all.filter(i=>i.status!=='concluida'&&i.abertura);
+    $('#kMedia').textContent=open.length?Math.round(open.reduce((s,i)=>s+daysBetween(i.abertura,t),0)/open.length):0;
+    document.querySelectorAll('.kpi').forEach(k=>k.classList.toggle('on',k.dataset.f===filter));
+    const resps=[...new Set(all.map(i=>i.responsavel).filter(Boolean))].sort();
+    const sel=$('#fResp');const cur=sel.value;
+    sel.innerHTML='<option value="">Todos os responsáveis</option>'+resps.map(r=>`<option ${r===cur?'selected':''}>${esc(r)}</option>`).join('');
+    $('#respList').innerHTML=resps.map(r=>`<option value="${esc(r)}">`).join('');
+    const vis=visible().sort(sorter());
+    const g=$('#groups');
+    if(!vis.length){g.innerHTML='<div class="empty">Nenhuma pauta neste filtro.</div>';return;}
+    g.innerHTML=ORDER.map(s=>{
+      const list=vis.filter(i=>i.status===s);
+      if(!list.length) return '';
+      return `<section class="group"><h2>${STATUS[s]} <b>${list.length}</b></h2><div class="cards">${list.map(card).join('')}</div></section>`;
+    }).join('');
+  }
+
+  function openEdit(id){
+    editing=id?{...items[id],historico:[...(items[id].historico||[])]}:{id:null,titulo:'',descricao:'',status:'andamento',responsavel:'Mikael',prazo:'',proximaAcao:'',abertura:today(),origem:'atual',historico:[]};
+    $('#mTitle').textContent=id?'Editar pauta':'Nova pauta';
+    $('#eTitulo').value=editing.titulo||'';$('#eDesc').value=editing.descricao||'';
+    $('#eResp').value=editing.responsavel||'';$('#ePrazo').value=editing.prazo||'';
+    $('#eNext').value=editing.proximaAcao||'';$('#eAbertura').value=editing.abertura||'';
+    $('#eOrigem').value=editing.origem||'atual';
+    setStatus(editing.status);
+    $('#btnDel').style.display=id?'':'none';$('#btnDel').textContent='Excluir';
+    renderHist();
+    $('#ovEdit').classList.add('open');
+    setTimeout(()=>$('#eTitulo').focus(),50);
+  }
+  function setStatus(s){editing.status=s;document.querySelectorAll('.status-pick button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));}
+  function renderHist(){
+    const ul=$('#histList');const h=editing.historico||[];
+    ul.innerHTML=h.length?h.slice().reverse().map(x=>`<li>${esc(x.texto)}<small>${fmt(x.data)}${x.autor?' · '+esc(x.autor):''}</small></li>`).join(''):'<li style="border-color:transparent;background:none;color:var(--muted)">Sem registros ainda.</li>';
+  }
+  function closeEdit(){$('#ovEdit').classList.remove('open');editing=null;}
+
+  async function save(){
+    if(!codigo){lock('');return;}
+    const titulo=$('#eTitulo').value.trim();
+    if(!titulo){toast('Dê um nome à pauta.');return;}
+    const data={
+      id:editing.id||'',titulo,descricao:$('#eDesc').value.trim(),status:editing.status,
+      responsavel:$('#eResp').value.trim(),prazo:$('#ePrazo').value,
+      proximaAcao:$('#eNext').value.trim(),abertura:$('#eAbertura').value,
+      origem:$('#eOrigem').value,historico:(editing.historico||[]).map(h=>({data:h.data,texto:h.texto,autor:h.autor||''})),
+      concluidaEm:editing.concluidaEm||''
+    };
+    const prev=editing.id?items[editing.id]:null;
+    if(prev&&prev.status!==data.status){
+      data.historico=[...data.historico,{data:today(),texto:'Status alterado para "'+STATUS[data.status]+'"',autor:nome}];
+      data.concluidaEm=data.status==='concluida'?today():'';
+    }
+    $('#btnSave').disabled=true;
+    try{
+      const row=await rpc('pautas_salvar',{p_codigo:codigo,p_pauta:toRow(data),p_quem:nome});
+      if(row){items[row.id]=fromRow(row);}
+      toast('Salvo.');closeEdit();render();
+    }catch(e){if(e.message==='codigo_invalido'){lock('Código inválido ou alterado.');}else toast('Não foi possível salvar: '+e.message);}
+    finally{$('#btnSave').disabled=false;}
+  }
+  async function del(){
+    if(!codigo||!editing.id) return;
+    if(!editing._confirm){editing._confirm=true;$('#btnDel').textContent='Confirmar exclusão';return;}
+    try{await rpc('pautas_excluir',{p_codigo:codigo,p_id:editing.id});delete items[editing.id];toast('Pauta excluída.');closeEdit();render();}
+    catch(e){toast('Não foi possível excluir: '+e.message);}
+  }
+
+  function resumo(){
+    const t=today();
+    const all=Object.values(items).filter(i=>!(i.origem==='historico-0110'&&i.status==='concluida')).sort(sorter());
+    const lines=['PAUTAS — atualização '+fmt(t),''];
+    const icon={atencao:'🔴',andamento:'🟡',concluida:'🟢'};
+    ORDER.forEach(s=>{
+      const list=all.filter(i=>i.status===s);if(!list.length)return;
+      lines.push(STATUS[s].toUpperCase()+' ('+list.length+')');
+      list.forEach(i=>{
+        let l=icon[s]+' '+i.titulo.toUpperCase();
+        const bits=[];
+        if(i.responsavel)bits.push('resp.: '+i.responsavel);
+        if(i.status!=='concluida'&&i.abertura)bits.push(daysBetween(i.abertura,t)+' dias em aberto');
+        if(i.prazo)bits.push((i.status!=='concluida'&&i.prazo<t?'PRAZO VENCIDO ':'prazo ')+fmt(i.prazo));
+        if(bits.length)l+=' ['+bits.join(' · ')+']';
+        lines.push(l);
+        if(i.descricao)lines.push('   '+i.descricao);
+        if(i.proximaAcao&&i.status!=='concluida')lines.push('   → Próxima ação: '+i.proximaAcao);
+        lines.push('');
+      });
+    });
+    return lines.join('\n').trim();
+  }
+
+  $('#btnNova').onclick=()=>openEdit(null);
+  $('#btnCancel').onclick=closeEdit;
+  $('#btnSave').onclick=save;
+  $('#btnDel').onclick=del;
+  $('#ovEdit').addEventListener('click',e=>{if(e.target.id==='ovEdit')closeEdit();});
+  document.querySelectorAll('.status-pick button').forEach(b=>b.onclick=()=>setStatus(b.dataset.s));
+  $('#histAdd').onclick=()=>{const v=$('#histTxt').value.trim();if(!v)return;editing.historico.push({data:today(),texto:v,autor:nome});$('#histTxt').value='';renderHist();};
+  $('#histTxt').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#histAdd').click();}});
+  $('#groups').addEventListener('click',e=>{const c=e.target.closest('.card');if(c)openEdit(c.dataset.id);});
+  ['#q','#fResp','#fOrd','#fHist'].forEach(s=>$(s).addEventListener('input',render));
+  document.querySelectorAll('.kpi').forEach(k=>k.onclick=()=>{filter=(filter===k.dataset.f)?'all':k.dataset.f;render();});
+  $('#btnResumo').onclick=()=>{$('#resumoTxt').textContent=resumo();$('#ovResumo').classList.add('open');};
+  $('#resumoClose').onclick=()=>$('#ovResumo').classList.remove('open');
+  $('#ovResumo').addEventListener('click',e=>{if(e.target.id==='ovResumo')$('#ovResumo').classList.remove('open');});
+  $('#resumoCopy').onclick=async()=>{try{await navigator.clipboard.writeText($('#resumoTxt').textContent);toast('Copiado!');}catch(e){toast('Selecione o texto e copie manualmente.');}};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeEdit();$('#ovResumo').classList.remove('open');}});
+
+  const SB_URL='https://yzhqethsmbacrdybyndp.supabase.co';
+  const SB_KEY='sb_publishable_FukHBoA4g7H_Qt3K_QAR9w_PnwU4l0o';
+  let codigo='', nome='';
+  try{codigo=localStorage.getItem('pautas_codigo')||'';nome=localStorage.getItem('pautas_nome')||'';}catch(e){}
+
+  async function rpc(fn,args){
+    const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(args)});
+    if(!r.ok){let m='';try{m=(await r.json()).message||'';}catch(e){}
+      if(/codigo_invalido/.test(m)||r.status===401||r.status===403) throw new Error('codigo_invalido');
+      throw new Error(m||('HTTP '+r.status));}
+    const t=await r.text();return t?JSON.parse(t):null;
+  }
+  function fromRow(r){return {id:r.id,titulo:r.titulo,descricao:r.descricao,status:r.status,responsavel:r.responsavel,abertura:r.abertura||'',prazo:r.prazo||'',proximaAcao:r.proxima_acao||'',origem:r.origem,historico:r.historico||[],concluidaEm:r.concluida_em||'',atualizado:r.atualizado_em,atualizadoPor:r.atualizado_por||''};}
+  function toRow(it){return {id:it.id||'',titulo:it.titulo,descricao:it.descricao,status:it.status,responsavel:it.responsavel,abertura:it.abertura||'',prazo:it.prazo||'',proxima_acao:it.proximaAcao||'',origem:it.origem,historico:it.historico||[],concluida_em:it.concluidaEm||''};}
+
+  async function carregar(silent){
+    if(!codigo) return;
+    try{
+      const rows=await rpc('pautas_listar',{p_codigo:codigo});
+      items={};(rows||[]).forEach(r=>{items[r.id]=fromRow(r);});
+      notice(Object.keys(items).length?'':'Nenhuma pauta cadastrada ainda. Clique em "+ Nova pauta".');
+      render();
+    }catch(e){
+      if(e.message==='codigo_invalido'){lock('Código inválido ou alterado. Entre novamente.');return;}
+      if(!silent) notice('Não foi possível carregar as pautas: '+e.message);
+    }
+  }
+  function lock(msg){
+    codigo='';try{localStorage.removeItem('pautas_codigo');}catch(e){}
+    document.body.classList.add('locked');$('#login').style.display='flex';$('#lErr').textContent=msg||'';
+    $('#lNome').value=nome;
+  }
+  function unlock(){document.body.classList.remove('locked');$('#login').style.display='none';$('#who').innerHTML='Você: <b>'+esc(nome)+'</b><a id="sair">sair</a><a id="trocar">alterar código</a>';
+    $('#sair').onclick=()=>lock('');
+    $('#trocar').onclick=()=>trocarCodigo();
+  }
+  function trocarCodigo(){
+    const ov=document.createElement('div');ov.className='overlay open';
+    ov.innerHTML='<div class="modal" style="max-width:420px"><h3>Alterar código de acesso</h3><div class="form"><div class="full"><label>Novo código (mín. 6 caracteres)</label><input id="pNovo" type="password"></div><div class="full"><label>Repita o novo código</label><input id="pNovo2" type="password"></div></div><div class="modal-foot"><span></span><div class="r"><button class="btn-light" id="pCancel">Cancelar</button><button class="btn-blue" id="pOk">Alterar</button></div></div></div>';
+    document.body.appendChild(ov);
+    ov.querySelector('#pCancel').onclick=()=>ov.remove();
+    ov.querySelector('#pOk').onclick=async()=>{
+      const a=ov.querySelector('#pNovo').value,b=ov.querySelector('#pNovo2').value;
+      if(a.length<6){toast('Mínimo de 6 caracteres.');return;}
+      if(a!==b){toast('Os códigos não conferem.');return;}
+      try{await rpc('pautas_alterar_codigo',{p_atual:codigo,p_novo:a});codigo=a;try{localStorage.setItem('pautas_codigo',a);}catch(e){}toast('Código alterado. Avise quem mais usa o painel.');ov.remove();}
+      catch(e){toast('Não foi possível alterar: '+e.message);}
+    };
+  }
+
+  $('#lEntrar').onclick=async()=>{
+    const n=$('#lNome').value.trim(),c=$('#lCod').value.trim();
+    if(!n||!c){$('#lErr').textContent='Informe seu nome e o código.';return;}
+    $('#lErr').textContent='Verificando…';
+    try{await rpc('pautas_listar',{p_codigo:c});}
+    catch(e){$('#lErr').textContent=e.message==='codigo_invalido'?'Código inválido.':'Erro: '+e.message;return;}
+    codigo=c;nome=n;try{localStorage.setItem('pautas_codigo',c);localStorage.setItem('pautas_nome',n);}catch(e){}
+    $('#lErr').textContent='';unlock();carregar();
+  };
+  $('#lCod').addEventListener('keydown',e=>{if(e.key==='Enter')$('#lEntrar').click();});
+
+  render();
+  if(codigo&&nome){unlock();carregar();}else{lock('');}
+  setInterval(()=>{if(codigo&&!$('#ovEdit').classList.contains('open'))carregar(true);},45000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&codigo)carregar(true);});
+})();
+</script>
+</body>
+</html>
